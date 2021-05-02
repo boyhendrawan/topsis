@@ -36,6 +36,7 @@ public class TOPSIS extends RumusTopsis {
         double[] min,max,dp,dm;
         
         TOPSIS Problem1 = new TOPSIS();
+        Problem1.JFrameTopsis1(data_nor);
         data_norm_bobot=Problem1.normalisasi(data_nor,bobot);
         
         //max min
@@ -45,12 +46,8 @@ public class TOPSIS extends RumusTopsis {
         dm=Problem1.alternatifDm(data_norm_bobot,min);
         dp=Problem1.alternatifDp(data_norm_bobot,max);
         
-        System.out.println("Alternatif Data");
-        for(int i=0; i<names.length;i++)
-        {
-            System.out.println(names[i]);
-        }
-       Problem1.prefrensi(dp,dm,names);
+        
+       Problem1.prefrensi(dp,dm,names,bobot,data_nor,data_bobot);
         
         
     }   
