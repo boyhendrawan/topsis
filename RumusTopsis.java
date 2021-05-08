@@ -11,12 +11,15 @@ package topsis;
  */
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import static javax.swing.GroupLayout.Alignment.*; 
 public class RumusTopsis {
     JFrame f; 
+    List<String[]> nilaiPrefrensi= new ArrayList<>();
+    List<String[]> nilaiRank= new ArrayList<>();
 public void JFrameTopsis1(int [][] data_nor){    
        
    
@@ -172,24 +175,38 @@ public void JFrameTopsis1(int [][] data_nor){
     public  void prefrensi(double[] dp,double[] dm,String[] data,int [] bobot,int [][] data_nor,int [] data_bobot)
     {
         double[] value = new double[dp.length];
-        System.out.println("Nilai Prefensi :");
+        
         for(int i =0; i< dp.length; i++)
         {
             value[i]= dm[i]/(dm[i] + dp[i]);
-            System.out.println( data[i]+" = "+value[i]);
+            this.nilaiPrefrensi.add( new String[]{String.valueOf(data[i]),String.valueOf(value[i])});
+          
         }
          double besar=0;
-         String rank1="";
          
+            String[][] tes1= new String[nilaiPrefrensi.size()][];
+           
+            for(int i=0; i<nilaiPrefrensi.size();i++)
+            {
+                tes1[i]=nilaiPrefrensi.get(i);    
+            }
+        
        for(int i =0; i< dp.length; i++)
         {
            
             if(besar==0 || besar < value[i])
             {
                 besar=value[i];
-                rank1=data[i];
+                nilaiRank.add(new String[] {String.valueOf(data[i]),String.valueOf(value[i])});
             }
         }
+       String[][] rank5 = new String[nilaiRank.size()][];
+       
+       for(int i=0; i<nilaiRank.size();i++)
+       {
+           rank5[i]=nilaiRank.get(i);
+          
+       }
 //       System.out.println("data prefensi terbaik "+rank1+" = "+besar);
         f=new JFrame("DATA NORMALISASI"); 
         Container myPane=f.getContentPane();
@@ -255,11 +272,24 @@ public void JFrameTopsis1(int [][] data_nor){
                 }
             }
         }
+        
+        
         JTable jt3 = new JTable(data_bobot3_3,col_data_nor1_1);
         jt3.setBounds(30,40,200,300);
         JScrollPane js_data_bobot3=new JScrollPane(jt3);
         
         
+        //data refrensi
+        String[] col_name_data={"Refrensi","Harga"};
+        JTable jt4 = new JTable(tes1,col_name_data);
+        jt4.setBounds(30,40,200,300);
+        JScrollPane js_data_refrensi4=new JScrollPane(jt4);
+        
+        
+        //Rank
+        JTable jt5= new JTable(rank5,col_name_data);
+        jt5.setBounds(30,40,200,300);
+        JScrollPane js_data_rank5=new JScrollPane(jt5);
         
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,14 +305,24 @@ public void JFrameTopsis1(int [][] data_nor){
                         .addContainerGap()
                         .addComponent(js_bobot2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(173, 173, 173)
+                         .addGap(155, 155, 155)
                         .addComponent(bobot2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(169, 169, 169)
+                         .addGap(155, 155, 155)
                         .addComponent(benefit3))
                      .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(js_data_bobot3, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                      .addGroup(layout.createSequentialGroup()
+                         .addGap(155, 155, 155)
+                        .addComponent(data_refrensi4))
+                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(js_data_refrensi4, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                      .addGroup(layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(pilihan_terbaik5))
+                      .addGroup(layout.createSequentialGroup()
+                        .addComponent(js_data_rank5,javax.swing.GroupLayout.PREFERRED_SIZE,375,javax.swing.GroupLayout.PREFERRED_SIZE))
                     )
                 )
         );
@@ -300,7 +340,21 @@ public void JFrameTopsis1(int [][] data_nor){
                 
                 .addComponent(benefit3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(js_data_bobot3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE) 
+                .addComponent(js_data_bobot3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                
+                 .addComponent(data_refrensi4)
+                 
+                 .addComponent(js_data_refrensi4,javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                 
+                    
+                 .addComponent(pilihan_terbaik5)
+                           .addComponent(js_data_rank5,javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+          
+                 
+                    
+                   
             )
         );
          f.pack();
